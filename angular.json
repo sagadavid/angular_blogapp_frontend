@@ -63,7 +63,8 @@
               "browserTarget": "frontblog:build:production"
             },
             "development": {
-              "browserTarget": "frontblog:build:development"
+              "browserTarget": "frontblog:build:development",
+              "proxyConfig": "src/proxy.json"
             }
           },
           "defaultConfiguration": "development"
