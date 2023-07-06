@@ -39,10 +39,19 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.loading = true;
+
     this.user = new User(
       this.controlDetails['username'].value,
       this.controlDetails['password'].value
     );
     console.log(this.user);
+
+    this.loginService
+      .login(this.user)
+      .subscribe({
+        next: (result) => console.log(result),
+        error: (er) => console.error(er),
+        complete: () => console.info('complete'),
+      });
   }
 }

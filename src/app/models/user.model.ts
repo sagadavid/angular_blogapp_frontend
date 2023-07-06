@@ -6,4 +6,11 @@ export class User {
     this.username = username;
     this.password = password;
   }
+  getUserName() {
+    return this.username;
+  }
+
+  getPassword() {
+    return this.password;
+  }
 }
