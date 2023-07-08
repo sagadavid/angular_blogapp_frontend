@@ -29,7 +29,20 @@
             <path d="M21 21l-5.2-5.2" />
           </svg>
         </a>
-        <a class="btn btn-sm btn-outline-secondary" href="#">Sign up</a>
+        <button
+          *ngIf="!this.authService.isAuthenticated()"
+          (click)="this.router.navigate([''])"
+          class="btn btn-sm btn-outlinesecondary"
+        >
+          Log meg in
+        </button>
+        <button
+          *ngIf="this.authService.isAuthenticated()"
+          (click)="logout()"
+          class="btn btn-sm btn-outlinesecondary"
+        >
+          Log meg ut
+        </button>
       </div>
     </div>
   </header>
