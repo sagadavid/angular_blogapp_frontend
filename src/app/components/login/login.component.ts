@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'; //define form-group and validators
 import { LoginService } from 'src/app/services/login.service'; //will communicate with api
 import { User } from 'src/app/models/user.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder, //form
-    private loginService: LoginService //action
+    private loginService: LoginService, //action
+    private router: Router //help to route other endpoints after login
   ) {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
@@ -46,12 +48,19 @@ export class LoginComponent implements OnInit {
     );
     console.log(this.user);
 
-    this.loginService
-      .login(this.user)
-      .subscribe({
-        next: (result) => console.log(result),
-        error: (er) => console.error(er),
-        complete: () => console.info('complete'),
-      });
+    this.loginService.login(this.user).subscribe({
+      next: (result: any) => {
+        if (result['status'] === 'success') {
+          this.router.navigate(['/home']);
+        } else {
+          this.error = 'wrong username or password';
+        }
+      },
+      error: (er) => {
+        this.error = er;
+        this.loading = false;
+      },
+      complete: () => console.info('complete'),
+    });
   }
 }
