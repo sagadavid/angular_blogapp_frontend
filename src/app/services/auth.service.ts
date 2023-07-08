@@ -14,7 +14,9 @@ export class AuthService {
       password: user.getPassword(),
     });
   }
-  logout() {}
+  logout() {
+    localStorage.removeItem('currentUser');
+  }
 
   setCurrentUser(user: User) {
     localStorage.setItem('currentUser', user.getUserName());
