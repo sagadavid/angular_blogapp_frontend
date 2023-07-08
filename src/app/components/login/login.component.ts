@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'; //define form-group and validators
-import { LoginService } from 'src/app/services/login.service'; //will communicate with api
+import { AuthService } from 'src/app/services/auth.service'; //will communicate with api
 import { User } from 'src/app/models/user.model';
 import { Router } from '@angular/router';
 
@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder, //form
-    private loginService: LoginService, //action
+    private authService: AuthService, //action
     private router: Router //help to route other endpoints after login
   ) {
     this.loginForm = this.formBuilder.group({
@@ -48,9 +48,11 @@ export class LoginComponent implements OnInit {
     );
     console.log(this.user);
 
-    this.loginService.login(this.user).subscribe({
+    this.authService.login(this.user).subscribe({
       next: (result: any) => {
         if (result['status'] === 'success') {
+          //set current user to whom/if has just logged in successfully
+          this.authService.setCurrentUser(this.user);
           this.router.navigate(['/home']);
         } else {
           this.error = 'wrong username or password';

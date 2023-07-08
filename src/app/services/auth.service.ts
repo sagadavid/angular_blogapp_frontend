@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root',
 })
-export class LoginService {
+export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(user: User) {
@@ -15,4 +15,15 @@ export class LoginService {
     });
   }
   logout() {}
+
+  setCurrentUser(user: User) {
+    localStorage.setItem('currentUser', user.getUserName());
+  }
+  isAuthenticated() {
+    const currentUser = localStorage.getItem('currentUser');
+    if (currentUser) {
+      return true;
+    }
+    return false;
+  }
 }
