@@ -54,6 +54,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.user).subscribe({
       next: (result: any) => {
         if (result['status'] === 'success') {
+          this.user.setId(result['data'][0]._id);
           //set current user to whom/if has just logged in successfully
           this.authService.setCurrentUser(this.user);
           this.router.navigate(['/home']);
