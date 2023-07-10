@@ -14,9 +14,9 @@ export class HomeComponent implements OnInit {
   posts: any[] = [];
 
   constructor(
-    private authService: AuthService,
-    private router: Router,
-    private postService: PostService
+    public authService: AuthService,
+    public router: Router,
+    public postService: PostService
   ) {}
   logout() {
     this.authService.logout();
