@@ -11,16 +11,24 @@ export class DashboardComponent implements OnInit {
 
   constructor(private postService: PostService) {}
 
-  getPosts() {
-    this.postService.getAllPosts().subscribe({
+  // getPosts() {
+  //   this.postService.getAllPosts().subscribe({
+  //     next: (result: any) => {
+  //       this.posts = result['data'];
+  //       console.log(this.posts);
+  //     },
+  //   });
+  // }
+  getAuthorsPosts() {
+    this.postService.getPostsByAuthor().subscribe({
       next: (result: any) => {
         this.posts = result['data'];
         console.log(this.posts);
       },
     });
   }
-
   ngOnInit(): void {
-    this.getPosts();
+    // this.getPosts();
+    this.getAuthorsPosts();
   }
 }
