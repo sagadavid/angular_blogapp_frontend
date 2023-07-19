@@ -9,7 +9,9 @@
   />
   <ul class="navbar-nav px-3">
     <li class="nav-item text-nowrap">
-      <a class="nav-link" href="#">Sign out</a>
+      <button class="btn btn-outline-primary" (click)="logout()">
+        Logge ut
+      </button>
     </li>
   </ul>
 </nav>
@@ -50,13 +52,6 @@
               Add Post
             </button>
           </div>
-          <button
-            type="button"
-            class="btn btn-sm btn-outline-secondary dropdown-toggle"
-          >
-            <span data-feather="calendar"></span>
-            This week
-          </button>
         </div>
       </div>
 
