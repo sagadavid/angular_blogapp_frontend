@@ -10,9 +10,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './components/home/home.component';
 import { PostComponent } from './components/post/post.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { AddPostComponent } from './components/add-post/add-post.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, PostComponent, DashboardComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    HomeComponent,
+    PostComponent,
+    DashboardComponent,
+    AddPostComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
