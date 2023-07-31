@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-post',
@@ -10,6 +11,10 @@ export class PostComponent implements OnInit {
   @Input() read = true;
   @Input() admin = false;
 
-  constructor() {}
+  constructor(private commonService: CommonService) {}
   ngOnInit(): void {}
+
+  setPostToEdit(post: any) {
+    this.commonService.setPostToEdit(post);
+  }
 }

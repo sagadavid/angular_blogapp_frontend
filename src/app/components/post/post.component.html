@@ -2,6 +2,7 @@
 <div class="text-right" *ngIf="admin">
   <i
     title="Edit"
+    (click)="setPostToEdit(post)"
     class="fas fa-edit"
     aria-hidden="true"
     style="cursor: pointer"
