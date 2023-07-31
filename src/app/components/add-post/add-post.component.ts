@@ -2,7 +2,6 @@ import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AddPostService } from 'src/app/services/add-post.service';
 import { Post } from 'src/app/models/post.model';
-import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-add-post',
@@ -17,8 +16,7 @@ export class AddPostComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private addPostService: AddPostService,
-    private commonService: CommonService
+    private addPostService: AddPostService
   ) {
     this.postForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -43,16 +41,13 @@ export class AddPostComponent implements OnInit {
       return;
     }
 
-    this.post = new Post(
-      this.formControls['title'].value,
-      this.formControls['text'].value
-    );
+    this.post.setText(this.formControls['title'].value);
+    this.post.setText(this.formControls['text'].value);
 
     this.addPostService.addPost(this.post).subscribe({
       next: (result: any) => {
         if (result['status'] === 'success') {
           this.closeBtn.nativeElement.click();
-          this.commonService.notifyPostAddition('');
         } else {
           console.log('Error adding post');
         }

@@ -7,9 +7,10 @@ import { Post } from '../models/post.model';
 })
 export class CommonService {
   public postAdded_Observable = new Subject();
-  //to notify when one has been selected to be edited.
   public postToEdit_Observable = new Subject();
+
   postToEdit: Post = new Post('', '');
+  public postToAdd_Observable = new Subject();
 
   constructor() {}
 
@@ -25,5 +26,15 @@ export class CommonService {
     this.postToEdit = new Post(post.title, post.text);
     this.postToEdit.setId(post._id);
     this.notifyPostEdit('');
+  }
+
+  notifyPostToAdd(msg: string) {
+    this.postToAdd_Observable.next(msg);
+  }
+
+  setPostToAdd() {
+    this.postToEdit = new Post('', '');
+    this.postToEdit.setId('');
+    this.notifyPostToAdd('');
   }
 }

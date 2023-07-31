@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
+import { PostService } from '../../services/post.service';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
-import { PostService } from 'src/app/services/post.service';
-import { CommonService } from 'src/app/services/common.service';
+import { CommonService } from '../../services/common.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,15 +11,29 @@ import { CommonService } from 'src/app/services/common.service';
 })
 export class DashboardComponent implements OnInit {
   posts: any[] = [];
+  @ViewChild('addPost') addBtn!: ElementRef;
+  @ViewChild('editPost') editBtn!: ElementRef;
 
   constructor(
     private postService: PostService,
     private auth: AuthService,
     private router: Router,
     private commonService: CommonService
-  ) {}
+  ) {
+    this.commonService.postToEdit_Observable.subscribe((res) => {
+      this.editBtn.nativeElement.click();
+    });
+  }
 
-  getAuthorsPosts() {
+  ngOnInit() {
+    this.getPosts();
+
+    this.commonService.postAdded_Observable.subscribe((res) => {
+      this.getPosts();
+    });
+  }
+
+  getPosts() {
     this.postService.getPostsByAuthor().subscribe({
       next: (result: any) => {
         this.posts = result['data'];
@@ -27,12 +41,9 @@ export class DashboardComponent implements OnInit {
       },
     });
   }
-  ngOnInit(): void {
-    // this.getPosts();
-    this.getAuthorsPosts();
-    this.commonService.postAdded_Observable.subscribe((res) => {
-      this.getAuthorsPosts();
-    });
+
+  resetPost() {
+    this.commonService.setPostToAdd();
   }
 
   logout() {
