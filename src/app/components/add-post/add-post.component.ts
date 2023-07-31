@@ -1,5 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AddPostService } from 'src/app/services/add-post.service';
+import { Post } from 'src/app/models/post.model';
 
 @Component({
   selector: 'app-add-post',
@@ -9,8 +11,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AddPostComponent implements OnInit {
   postForm: FormGroup;
   submitted = false;
+  post: Post = new Post('', '');
+  @ViewChild('closeBtn') closeBtn!: ElementRef;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private addPostService: AddPostService
+  ) {
     this.postForm = this.formBuilder.group({
       title: ['', Validators.required],
       text: ['', Validators.required],
@@ -33,5 +40,24 @@ export class AddPostComponent implements OnInit {
       console.log('postForm is invalid');
       return;
     }
+
+    this.post = new Post(
+      this.formControls['title'].value,
+      this.formControls['text'].value
+    );
+
+    this.addPostService.addPost(this.post).subscribe({
+      next: (result: any) => {
+        if (result['status'] === 'success') {
+          this.closeBtn.nativeElement.click();
+        } else {
+          console.log('Error adding post');
+        }
+      },
+      error: (e: any) => {},
+      complete: () => {
+        console.info('complete');
+      },
+    });
   }
 }
